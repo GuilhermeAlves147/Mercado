@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Market — Banca Digital</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+
+<header class="topbar">
+
+  <div class="brand">
+    <span class="brand-mark">Market</span>
+    <span class="brand-tag">By Poggers </span>
+  </div>
+
+  <nav class="nav-links">
+    <a
+            href="#"
+            class="nav-link active"
+            data-view="catalog"
+            onclick="showView('catalog')"
+    >
+      Catálogo
+    </a>
+
+    <a
+            href="#"
+            id="nav-my-products"
+            class="nav-link hidden"
+            data-view="my-products"
+            onclick="showView('my-products')"
+    >
+      Meus produtos
+    </a>
+  </nav>
+
+  <div class="topbar-actions">
+
+    <div class="search-box">
+      <span>🔍</span>
+      <input
+              id="search-input"
+              type="text"
+              placeholder="Buscar produto..."
+      />
+    </div>
+
+    <button class="cart-toggle" onclick="toggleCart(true)">
+      🧺 Carrinho
+      <span id="cart-count">0</span>
+    </button>
+
+    <!-- USUÁRIO NÃO LOGADO -->
+    <div id="auth-guest">
+      <button
+              class="btn btn-ghost"
+              onclick="openModal('modal-login')"
+      >
+        Entrar
+      </button>
+    </div>
+
+    <!-- USUÁRIO LOGADO -->
+    <div
+            id="auth-user"
+            class="hidden"
+            style="display:flex; align-items:center; gap:10px;"
+    >
+        <span class="session-pill">
+          👤 <span id="session-user"></span>
+        </span>
+
+      <button
+              class="btn btn-ghost"
+              onclick="logout()"
+      >
+        Sair
+      </button>
+    </div>
+
+  </div>
+</header>
+
+
+
+
+<section class="hero">
+
+    <span class="hero-eyebrow">
+      Feira aberta hoje
+    </span>
+
+  <h1>
+    Tudo fresco, direto da banca pra sua sacola.
+  </h1>
+
+  <p>
+    Escolha os produtos, monte seu carrinho e feche o pedido —
+    igual numa feira de verdade, só que sem fila.
+  </p>
+
+</section>
+
+
+<main>
+
+
+
+  <section id="view-catalog">
+
+    <div class="section-title">
+
+      <h2>
+        Produtos da banca
+      </h2>
+
+      <span id="catalog-count-hint"></span>
+
+    </div>
+
+    <div
+            id="catalog-grid"
+            class="catalog-grid"
+    ></div>
+
+  </section>
+
+
+  <!-- ===================== MEUS PRODUTOS ===================== -->
+
+  <section
+          id="view-my-products"
+          class="hidden"
+  >
+
+    <div class="section-title">
+
+      <h2>
+        Sua banca
+      </h2>
+
+    </div>
+
+
+    <div class="my-products-layout">
+
+      <!-- FORMULÁRIO DE PRODUTO -->
+
+      <div class="form-card">
+
+        <h3 id="product-form-title">
+          Cadastrar produto
+        </h3>
+
+        <form id="form-product">
+
+          <input
+                  type="hidden"
+                  id="product-id"
+          />
+
+          <div class="field">
+
+            <label for="product-name">
+              Nome
+            </label>
+
+            <input
+                    id="product-name"
+                    type="text"
+                    required
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="product-value">
+              Preço (R$)
+            </label>
+
+            <input
+                    id="product-value"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    required
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="product-quantity">
+              Quantidade
+            </label>
+
+            <input
+                    id="product-quantity"
+                    type="number"
+                    min="0"
+                    required
+            />
+
+          </div>
+
+
+          <button
+                  class="btn btn-primary"
+                  type="submit"
+          >
+            Salvar produto
+          </button>
+
+        </form>
+
+      </div>
+
+
+      <!-- LISTA DOS PRODUTOS -->
+
+      <div>
+
+        <div id="my-products-list"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+
+<footer>
+   Back-end by guilherme, Front by koda
+</footer>
+
+
+
+
+<div id="overlay"></div>
+
+
+
+
+<aside
+        id="cart-drawer"
+        class="drawer"
+>
+
+  <div class="drawer-header">
+
+    <h2>
+      Seu carrinho
+    </h2>
+
+    <button
+            class="drawer-close"
+            onclick="toggleCart(false)"
+    >
+      ✕
+    </button>
+
+  </div>
+
+
+  <div class="drawer-body">
+
+    <div id="cart-list"></div>
+
+  </div>
+
+
+  <div class="drawer-footer">
+
+    <div class="cart-total-row">
+
+        <span>
+          Total
+        </span>
+
+      <span id="cart-total">
+          R$ 0,00
+        </span>
+
+    </div>
+
+
+    <button
+            class="btn btn-primary"
+            onclick="checkout()"
+    >
+      Fechar pedido
+    </button>
+
+  </div>
+
+</aside>
+
+
+<!-- ============================== LOGIN MODAL ============================== -->
+
+<div
+        id="modal-login"
+        class="modal"
+>
+
+  <button
+          class="modal-close"
+          onclick="closeModal('modal-login')"
+  >
+    ✕
+  </button>
+
+
+  <h2>
+    Entrar
+  </h2>
+
+
+  <p class="hint">
+    Acesse sua conta pra comprar e vender.
+  </p>
+
+
+  <form id="form-login">
+
+    <!-- E-MAIL -->
+
+    <div class="field">
+
+      <label for="login-email">
+        E-mail
+      </label>
+
+      <input
+              id="login-email"
+              type="email"
+              placeholder="seu@email.com"
+              required
+      />
+
+    </div>
+
+
+    <!-- SENHA -->
+
+    <div class="field">
+
+      <label for="login-password">
+        Senha
+      </label>
+
+      <input
+              id="login-password"
+              type="password"
+              placeholder="Sua senha"
+              required
+      />
+
+    </div>
+
+
+    <button
+            class="btn btn-primary"
+            type="submit"
+    >
+      Entrar
+    </button>
+
+  </form>
+
+
+  <p class="modal-switch">
+
+    Não tem conta?
+
+    <a
+            href="#"
+            onclick="closeModal('modal-login'); openModal('modal-register'); return false;"
+    >
+      Criar conta
+    </a>
+
+  </p>
+
+</div>
+
+
+<!-- ============================== REGISTER MODAL ============================== -->
+
+<div
+        id="modal-register"
+        class="modal"
+>
+
+  <button
+          class="modal-close"
+          onclick="closeModal('modal-register')"
+  >
+    ✕
+  </button>
+
+
+  <h2>
+    Criar conta
+  </h2>
+
+
+  <p class="hint">
+    Leva menos de um minuto.
+  </p>
+
+
+  <form id="form-register">
+
+    <!-- NOME -->
+
+    <div class="field">
+
+      <label for="register-name">
+        Nome
+      </label>
+
+      <input
+              id="register-name"
+              type="text"
+              maxlength="100"
+              placeholder="Seu nome"
+              required
+      />
+
+    </div>
+
+
+    <!-- E-MAIL -->
+
+    <div class="field">
+
+      <label for="register-email">
+        E-mail
+      </label>
+
+      <input
+              id="register-email"
+              type="email"
+              placeholder="seu@email.com"
+              required
+      />
+
+    </div>
+
+
+    <!-- SENHA -->
+
+    <div class="field">
+
+      <label for="register-password">
+        Senha
+      </label>
+
+      <input
+              id="register-password"
+              type="password"
+              placeholder="Crie uma senha"
+              required
+      />
+
+    </div>
+
+
+    <button
+            class="btn btn-primary"
+            type="submit"
+    >
+      Criar conta
+    </button>
+
+  </form>
+
+
+  <p class="modal-switch">
+
+    Já tem conta?
+
+    <a
+            href="#"
+            onclick="closeModal('modal-register'); openModal('modal-login'); return false;"
+    >
+      Entrar
+    </a>
+
+  </p>
+
+</div>
+
+
+
+
+<div
+        id="toast"
+        class="toast"
+></div>
+
+
+<!-- ============================== JAVASCRIPT ============================== -->
+
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

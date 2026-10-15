@@ -1,42 +1,48 @@
 package com.ucb.market.controller;
 
-import com.ucb.market.dto.ProductDTO;
-import com.ucb.market.model.Product;
+import com.ucb.market.dto.ProductRequest;
+import com.ucb.market.dto.ProductResponse;
 import com.ucb.market.services.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
     @GetMapping
-    public List<Product> listProducts() {
-        return productService.listProducts();
+    public List<ProductResponse> list(@RequestParam(required = false) Integer categoryId,
+                                      @RequestParam(required = false) Integer sellerId,
+                                      @RequestParam(required = false) String name) {
+        return productService.list(categoryId, sellerId, name);
     }
-    @GetMapping("{id}")
-    public Product findById(@PathVariable int id){
+
+    @GetMapping("/{id}")
+    public ProductResponse findById(@PathVariable Integer id) {
         return productService.findById(id);
     }
+
     @PostMapping
-    public Product create(@RequestBody @Valid ProductDTO productDTO){
-        return productService.create(productDTO);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductResponse create(@RequestBody @Valid ProductRequest req) {
+        return productService.create(req);
     }
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete (@PathVariable int id){
+
+    @PutMapping("/{id}")
+    public ProductResponse update(@PathVariable Integer id, @RequestBody @Valid ProductRequest req) {
+        return productService.update(id, req);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Integer id) {
         productService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-    @PutMapping("{id}")
-    public Product update(@PathVariable int id,@RequestBody @Valid ProductDTO productDTO){
-        return productService.update(id,productDTO);
     }
 }

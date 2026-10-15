@@ -1,27 +1,35 @@
 package com.ucb.market.model;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
+import java.math.BigDecimal;
+
 @Entity
-@Table(name = "product")
+@Table(name = "tb_product")
+@Getter @Setter @NoArgsConstructor
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "id_product")
+    private Integer id;
+
+    @Column(nullable = false, length = 100)
     private String name;
-    private Double value;
-    private int quantity;
 
-    public Product(String name, double value, int quantity,int id) {
-        this.name = name;
-        this.value = value;
-        this.quantity = quantity;
-        this.id = id;
-    }
-    public Product(){}
+    @Column(name = "value", nullable = false, precision = 15, scale = 2)
+    private BigDecimal value;
 
+    @Column(nullable = false)
+    private Integer quantity;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_seller")
+    private Seller seller;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_category")
+    private Category category;
 }

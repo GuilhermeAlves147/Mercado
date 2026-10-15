@@ -2,10 +2,10 @@ package com.ucb.market.repository;
 
 import com.ucb.market.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
-    public interface ProductRepository extends JpaRepository<Product, Integer> {
-
-    }
-
+public interface ProductRepository extends JpaRepository<Product, Integer> {
+    List<Product> findBySellerId(Integer sellerId);
+    List<Product> findByCategoryId(Integer categoryId);
+    List<Product> findByNameContainingIgnoreCase(String name);
+}

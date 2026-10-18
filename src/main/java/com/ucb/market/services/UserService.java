@@ -3,9 +3,11 @@ package com.ucb.market.services;
 import com.ucb.market.dto.*;
 import com.ucb.market.exception.BusinessException;
 import com.ucb.market.exception.ResourceNotFoundException;
+import com.ucb.market.model.Cart;
 import com.ucb.market.model.Client;
 import com.ucb.market.model.Seller;
 import com.ucb.market.model.User;
+import com.ucb.market.repository.CartRepository;
 import com.ucb.market.repository.ClientRepository;
 import com.ucb.market.repository.SellerRepository;
 import com.ucb.market.repository.UserRepository;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final SellerRepository sellerRepository;
     private final ClientRepository clientRepository;
@@ -69,5 +72,9 @@ public class UserService {
         client.setUser(user);
         client.setPhone(req.phone());
         clientRepository.save(client);
+        Cart cart = new Cart();
+        cart.setClient(client);
+        cartRepository.save(cart);
     }
+
 }

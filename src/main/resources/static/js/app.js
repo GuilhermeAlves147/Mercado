@@ -1,4 +1,4 @@
-/* Poggers — Marketplace de Eletrônicos · frontend (JS puro) */
+/* Nexa — Marketplace de Eletrônicos · frontend (JS puro) */
 "use strict";
 
 /* ============ utilidades ============ */
@@ -263,7 +263,7 @@ function renderCatalog() {
   const f = state.filters;
   v.innerHTML = `
     <section class="hero">
-      <span class="eyebrow">Poggers tech · tecnologia sem complicação</span>
+      <span class="eyebrow">Nexa tech · tecnologia sem complicação</span>
       <h1>Tecnologia que acompanha <em>você.</em></h1>
       <p>Descubra eletrônicos para trabalhar, jogar e curtir. Encontre seu próximo favorito e compre em poucos cliques.</p>
       <div class="hero-stats">

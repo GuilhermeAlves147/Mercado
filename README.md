@@ -1,4 +1,4 @@
-# Nexa — Marketplace de Eletrônicos
+# Nexa — Marketplace 
 
 Projeto acadêmico de marketplace de eletrônicos, com interface web em HTML, CSS e JavaScript, API REST em Spring Boot e banco MySQL.
 

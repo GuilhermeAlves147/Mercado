@@ -1,521 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Market — Banca Digital</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Poggers — Marketplace de Eletrônicos</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231f6b4a'/%3E%3Cpath d='M9 12h14l-1.4 10H10.4z' fill='%23faf6ee'/%3E%3Cpath d='M12.5 12a3.5 3.5 0 0 1 7 0' fill='none' stroke='%23faf6ee' stroke-width='1.8'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <a class="skip" href="#view">Pular para o conteúdo</a>
 
-
-<header class="topbar">
-
-  <div class="brand">
-    <span class="brand-mark">Market</span>
-    <span class="brand-tag">By Poggers </span>
-  </div>
-
-  <nav class="nav-links">
-    <a
-            href="#"
-            class="nav-link active"
-            data-view="catalog"
-            onclick="showView('catalog')"
-    >
-      Catálogo
-    </a>
-
-    <a
-            href="#"
-            id="nav-my-products"
-            class="nav-link hidden"
-            data-view="my-products"
-            onclick="showView('my-products')"
-    >
-      Meus produtos
-    </a>
-  </nav>
-
-  <div class="topbar-actions">
-
-    <div class="search-box">
-      <span>🔍</span>
-      <input
-              id="search-input"
-              type="text"
-              placeholder="Buscar produto..."
-      />
-    </div>
-
-    <button class="cart-toggle" onclick="toggleCart(true)">
-      🧺 Carrinho
-      <span id="cart-count">0</span>
-    </button>
-
-    <!-- USUÁRIO NÃO LOGADO -->
-    <div id="auth-guest">
-      <button
-              class="btn btn-ghost"
-              onclick="openModal('modal-login')"
-      >
-        Entrar
-      </button>
-    </div>
-
-    <!-- USUÁRIO LOGADO -->
-    <div
-            id="auth-user"
-            class="hidden"
-            style="display:flex; align-items:center; gap:10px;"
-    >
-        <span class="session-pill">
-          👤 <span id="session-user"></span>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/" aria-label="Poggers — início">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.3 11H6.3z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
         </span>
+        <span class="brand-name">Poggers<span class="brand-dot">.</span></span>
+      </a>
 
-      <button
-              class="btn btn-ghost"
-              onclick="logout()"
-      >
-        Sair
-      </button>
-    </div>
+      <nav class="nav" aria-label="Principal">
+        <a href="#/" data-route="catalog">Catálogo</a>
+        <a href="#/pedidos" data-route="orders">Meus pedidos</a>
+        <a href="#/vender" data-route="sell">Vender</a>
+      </nav>
 
-  </div>
-</header>
+      <label class="search" id="searchBox">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="search" type="search" placeholder="Buscar produtos…" autocomplete="off" aria-label="Buscar produtos">
+      </label>
 
-
-
-
-<section class="hero">
-
-    <span class="hero-eyebrow">
-      Feira aberta hoje
-    </span>
-
-  <h1>
-    Tudo fresco, direto da banca pra sua sacola.
-  </h1>
-
-  <p>
-    Escolha os produtos, monte seu carrinho e feche o pedido —
-    igual numa feira de verdade, só que sem fila.
-  </p>
-
-</section>
-
-
-<main>
-
-
-
-  <section id="view-catalog">
-
-    <div class="section-title">
-
-      <h2>
-        Produtos da banca
-      </h2>
-
-      <span id="catalog-count-hint"></span>
-
-    </div>
-
-    <div
-            id="catalog-grid"
-            class="catalog-grid"
-    ></div>
-
-  </section>
-
-
-  <!-- ===================== MEUS PRODUTOS ===================== -->
-
-  <section
-          id="view-my-products"
-          class="hidden"
-  >
-
-    <div class="section-title">
-
-      <h2>
-        Sua banca
-      </h2>
-
-    </div>
-
-
-    <div class="my-products-layout">
-
-      <!-- FORMULÁRIO DE PRODUTO -->
-
-      <div class="form-card">
-
-        <h3 id="product-form-title">
-          Cadastrar produto
-        </h3>
-
-        <form id="form-product">
-
-          <input
-                  type="hidden"
-                  id="product-id"
-          />
-
-          <div class="field">
-
-            <label for="product-name">
-              Nome
-            </label>
-
-            <input
-                    id="product-name"
-                    type="text"
-                    required
-            />
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="product-value">
-              Preço (R$)
-            </label>
-
-            <input
-                    id="product-value"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    required
-            />
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="product-quantity">
-              Quantidade
-            </label>
-
-            <input
-                    id="product-quantity"
-                    type="number"
-                    min="0"
-                    required
-            />
-
-          </div>
-
-
-          <button
-                  class="btn btn-primary"
-                  type="submit"
-          >
-            Salvar produto
-          </button>
-
-        </form>
-
+      <div class="actions">
+        <button class="btn btn-ghost" id="accountBtn" type="button"></button>
+        <button class="btn btn-cart" id="cartBtn" type="button" aria-label="Abrir carrinho">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2.2 11h10.1l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+          <span class="cart-label">Carrinho</span>
+          <span class="badge" id="cartCount" hidden>0</span>
+        </button>
       </div>
-
-
-      <!-- LISTA DOS PRODUTOS -->
-
-      <div>
-
-        <div id="my-products-list"></div>
-
-      </div>
-
     </div>
+  </header>
 
-  </section>
+  <main id="view" tabindex="-1"></main>
 
-</main>
+  <footer class="footer">
+    <span class="brand-name">Poggers<span class="brand-dot">.</span></span>
+    <span>Tecnologia para o seu dia a dia · Projeto acadêmico — UCB</span>
+  </footer>
 
+  <!-- Carrinho (drawer) -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Carrinho" aria-hidden="true"></aside>
 
-
-<footer>
-   Back-end by guilherme, Front by koda
-</footer>
-
-
-
-
-<div id="overlay"></div>
-
-
-
-
-<aside
-        id="cart-drawer"
-        class="drawer"
->
-
-  <div class="drawer-header">
-
-    <h2>
-      Seu carrinho
-    </h2>
-
-    <button
-            class="drawer-close"
-            onclick="toggleCart(false)"
-    >
-      ✕
-    </button>
-
+  <!-- Modal -->
+  <div class="modal-wrap" id="modalWrap" hidden>
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
   </div>
 
-
-  <div class="drawer-body">
-
-    <div id="cart-list"></div>
-
-  </div>
-
-
-  <div class="drawer-footer">
-
-    <div class="cart-total-row">
-
-        <span>
-          Total
-        </span>
-
-      <span id="cart-total">
-          R$ 0,00
-        </span>
-
-    </div>
-
-
-    <button
-            class="btn btn-primary"
-            onclick="checkout()"
-    >
-      Fechar pedido
-    </button>
-
-  </div>
-
-</aside>
-
-
-<!-- ============================== LOGIN MODAL ============================== -->
-
-<div
-        id="modal-login"
-        class="modal"
->
-
-  <button
-          class="modal-close"
-          onclick="closeModal('modal-login')"
-  >
-    ✕
-  </button>
-
-
-  <h2>
-    Entrar
-  </h2>
-
-
-  <p class="hint">
-    Acesse sua conta pra comprar e vender.
-  </p>
-
-
-  <form id="form-login">
-
-    <!-- E-MAIL -->
-
-    <div class="field">
-
-      <label for="login-email">
-        E-mail
-      </label>
-
-      <input
-              id="login-email"
-              type="email"
-              placeholder="seu@email.com"
-              required
-      />
-
-    </div>
-
-
-    <!-- SENHA -->
-
-    <div class="field">
-
-      <label for="login-password">
-        Senha
-      </label>
-
-      <input
-              id="login-password"
-              type="password"
-              placeholder="Sua senha"
-              required
-      />
-
-    </div>
-
-
-    <button
-            class="btn btn-primary"
-            type="submit"
-    >
-      Entrar
-    </button>
-
-  </form>
-
-
-  <p class="modal-switch">
-
-    Não tem conta?
-
-    <a
-            href="#"
-            onclick="closeModal('modal-login'); openModal('modal-register'); return false;"
-    >
-      Criar conta
-    </a>
-
-  </p>
-
-</div>
-
-
-<!-- ============================== REGISTER MODAL ============================== -->
-
-<div
-        id="modal-register"
-        class="modal"
->
-
-  <button
-          class="modal-close"
-          onclick="closeModal('modal-register')"
-  >
-    ✕
-  </button>
-
-
-  <h2>
-    Criar conta
-  </h2>
-
-
-  <p class="hint">
-    Leva menos de um minuto.
-  </p>
-
-
-  <form id="form-register">
-
-    <!-- NOME -->
-
-    <div class="field">
-
-      <label for="register-name">
-        Nome
-      </label>
-
-      <input
-              id="register-name"
-              type="text"
-              maxlength="100"
-              placeholder="Seu nome"
-              required
-      />
-
-    </div>
-
-
-    <!-- E-MAIL -->
-
-    <div class="field">
-
-      <label for="register-email">
-        E-mail
-      </label>
-
-      <input
-              id="register-email"
-              type="email"
-              placeholder="seu@email.com"
-              required
-      />
-
-    </div>
-
-
-    <!-- SENHA -->
-
-    <div class="field">
-
-      <label for="register-password">
-        Senha
-      </label>
-
-      <input
-              id="register-password"
-              type="password"
-              placeholder="Crie uma senha"
-              required
-      />
-
-    </div>
-
-
-    <button
-            class="btn btn-primary"
-            type="submit"
-    >
-      Criar conta
-    </button>
-
-  </form>
-
-
-  <p class="modal-switch">
-
-    Já tem conta?
-
-    <a
-            href="#"
-            onclick="closeModal('modal-register'); openModal('modal-login'); return false;"
-    >
-      Entrar
-    </a>
-
-  </p>
-
-</div>
-
-
-
-
-<div
-        id="toast"
-        class="toast"
-></div>
-
-
-<!-- ============================== JAVASCRIPT ============================== -->
-
-<script src="config.js"></script>
-<script src="api.js"></script>
-<script src="app.js"></script>
-
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

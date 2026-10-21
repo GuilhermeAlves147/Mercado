@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Poggers — Marketplace de Eletrônicos</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231f6b4a'/%3E%3Cpath d='M9 12h14l-1.4 10H10.4z' fill='%23faf6ee'/%3E%3Cpath d='M12.5 12a3.5 3.5 0 0 1 7 0' fill='none' stroke='%23faf6ee' stroke-width='1.8'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#view">Pular para o conteúdo</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/" aria-label="Poggers — início">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.3 11H6.3z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+        </span>
+        <span class="brand-name">Poggers<span class="brand-dot">.</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Principal">
+        <a href="#/" data-route="catalog">Catálogo</a>
+        <a href="#/pedidos" data-route="orders">Meus pedidos</a>
+        <a href="#/vender" data-route="sell">Vender</a>
+      </nav>
+
+      <label class="search" id="searchBox">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="search" type="search" placeholder="Buscar produtos…" autocomplete="off" aria-label="Buscar produtos">
+      </label>
+
+      <div class="actions">
+        <button class="btn btn-ghost" id="accountBtn" type="button"></button>
+        <button class="btn btn-cart" id="cartBtn" type="button" aria-label="Abrir carrinho">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2.2 11h10.1l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+          <span class="cart-label">Carrinho</span>
+          <span class="badge" id="cartCount" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1"></main>
+
+  <footer class="footer">
+    <span class="brand-name">Poggers<span class="brand-dot">.</span></span>
+    <span>Tecnologia para o seu dia a dia · Projeto acadêmico — UCB</span>
+  </footer>
+
+  <!-- Carrinho (drawer) -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Carrinho" aria-hidden="true"></aside>
+
+  <!-- Modal -->
+  <div class="modal-wrap" id="modalWrap" hidden>
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

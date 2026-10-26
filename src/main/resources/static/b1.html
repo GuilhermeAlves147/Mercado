@@ -1,0 +1,105 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nexa — Painel B1</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#f4f7fc;--ink:#172033;--muted:#66738b;--line:#dce4ef;--blue:#2e60ec;--soft:#eaf0ff;--danger:#b3261e;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;flex-direction:column}button,input,select{font:inherit}
+.topbar{height:auto;min-height:70px;background:#f7f9fd;border-bottom:1px solid #e1e7f0}
+.topbar-inner{max-width:1020px;min-height:70px;margin:auto;padding:10px 18px;display:flex;gap:26px;align-items:center}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#162036}
+.brand-icon{width:31px;height:31px;background:var(--blue);color:#fff;border-radius:10px;display:grid;place-items:center;font-size:19px}
+.brand-name{font:700 22px Fraunces,Georgia,serif}.brand-name span{color:var(--blue)}
+nav{display:flex;align-items:center;gap:3px;flex-wrap:wrap}
+nav a{text-decoration:none;color:#626f86;font-size:13px;font-weight:600;padding:11px 13px;border-radius:24px;white-space:nowrap}
+nav a:hover{background:#eaf0ff}nav a.active{color:#285de9;background:#eaf0ff;outline:2px solid #89a6ff;outline-offset:1px}
+.top-actions{margin-left:auto;display:flex;gap:8px}.pill{padding:10px 16px;border:1px solid #dce5f1;border-radius:24px;font-size:12px;font-weight:700;white-space:nowrap}.pill.dark{background:#172033;color:white}
+main{width:100%;max-width:1016px;margin:23px auto 70px;padding:0 18px;flex:1}
+.page-title{font:700 32px Fraunces,Georgia,serif;margin:0 0 3px;letter-spacing:-.6px}.subtitle{margin:0 0 24px;color:#65738d;font-size:13px}
+.page-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.panel{background:white;border:1px solid #dce5f1;border-radius:15px;padding:16px;margin:14px 0 20px}
+.tabs{display:flex;gap:8px;border-bottom:1px solid #dce4ef;margin-top:12px}
+.tabs button{background:none;color:#65728b;padding:13px 14px;border:0;border-bottom:2px solid transparent;border-radius:0;font-size:13px;font-weight:700}
+.tabs button.active{color:#2b5de9;border-color:#2b5de9}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;align-items:end}
+label{display:grid;gap:6px;color:#64718a;font-size:11px;font-weight:700}
+input,select{height:39px;border:1px solid #dce4f0;border-radius:9px;padding:0 12px;min-width:0;width:100%;font-size:13px;color:#25344e;background:white}
+input:focus,select:focus{outline:2px solid #a7bbff;border-color:var(--blue)}
+button{cursor:pointer;border:0;border-radius:22px;background:var(--blue);color:#fff;padding:11px 18px;font-size:12px;font-weight:700}
+button:hover{filter:brightness(.96)}button.secondary{background:#fff;border:1px solid #dce4ef;color:#263249}button.danger{background:#fff0f0;color:#b3261e}
+.actions-row{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+#message{margin:0 0 14px;padding:12px 16px;border-radius:10px;background:#e9f7ef;color:#19784d;font-size:12px}
+#message.error{background:#ffeded;color:#b3261e}
+.scroll{overflow:auto;margin-top:15px}table{width:100%;border-collapse:collapse;background:#fff;font-size:12px}
+th{background:#edf2fa;color:#7e8aa0;text-transform:uppercase;font-size:10px;letter-spacing:.4px}
+th,td{padding:13px 12px;border-bottom:1px solid #e5ebf4;text-align:left;white-space:nowrap}
+td button{padding:8px 13px;margin-right:5px}
+.results{min-height:260px;background:#fff;border:1px dashed #dce5f2;border-radius:15px;display:flex;align-items:center;justify-content:center;margin-top:18px;overflow:auto}
+.results:has(table){display:block;min-height:0;border-style:solid}.results .scroll{margin:0;width:100%}
+.results .scroll:empty:before{content:"Clique em Consultar para carregar os resultados.";display:block;text-align:center;color:#8792a5;padding:90px 10px}
+.results .scroll:not(:empty){padding:0}
+.empty-note{font-size:12px;color:#718099;margin:10px 0}
+footer{text-align:center;padding:22px;color:#8996a9;font-size:11px;border-top:1px solid #e0e7f2}
+footer strong{font:700 16px Fraunces,Georgia,serif;color:#172033;margin-right:12px}
+[data-page][hidden],[data-query][hidden]{display:none!important}
+@media(max-width:800px){.topbar-inner{gap:12px}.top-actions{display:none}nav a{padding:8px 9px}.page-title{font-size:27px}}
+</style></head><body>
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="/#/"><span class="brand-icon">▣</span><span class="brand-name">Nexa<span>.</span></span></a>
+<nav><a href="/#/">Catálogo</a><a href="/#/pedidos">Meus pedidos</a><a href="/#/vender">Vender</a><a href="#/cadastros" data-nav="cadastros">Cadastros</a><a href="#/consultas" data-nav="consultas">Consultas</a><a href="#/relatorio" data-nav="relatorio">Relatório</a></nav>
+<div class="top-actions"><span class="pill">Administração</span><span class="pill dark">Painel B1</span></div>
+</div></header><main>
+<p id="message" role="status" aria-live="polite" hidden>Conectado ao banco de dados.</p>
+<section data-page="cadastros"><h1 class="page-title">Cadastros</h1><p class="subtitle">Gerencie categorias, fornecedores, produtos e usuários do marketplace.</p>
+<div class="panel"><div class="fields"><label>Entidade<select id="entity"><option value="categories">Categorias</option><option value="suppliers">Fornecedores</option><option value="products">Produtos</option><option value="b1/usuarios">Usuários</option></select></label>
+<div><button id="reload" class="secondary">↻ Atualizar lista</button></div><div><button id="create">+ Novo registro</button></div></div>
+<div class="scroll" id="crudResults"></div></div></section>
+<section data-page="consultas" hidden><h1 class="page-title">Consultas</h1><p class="subtitle">Informe filtros e a aplicação executa consultas com junção e agregação no banco.</p>
+<div class="tabs"><button type="button" data-tab="stock" class="active">Estoque por categoria</button><button type="button" data-tab="sales">Vendas por vendedor</button></div>
+<div data-query="stock"><form class="panel" id="stockForm"><div class="fields">
+<label>ID da categoria<input type="number" min="1" name="categoriaId" placeholder="Todas"></label><label>Nome do produto<input name="nome" placeholder="Parte do nome"></label></div>
+<div class="actions-row"><button type="button" class="secondary" data-clear="#stockForm" data-output="#stockResults">Limpar</button><button>Consultar</button></div></form>
+<p class="empty-note">Consulta parametrizada com JOIN entre categorias e produtos, COUNT e SUM.</p>
+<div class="results"><div class="scroll" id="stockResults"></div></div></div>
+<div data-query="sales" hidden><form class="panel" id="salesForm"><div class="fields">
+<label>ID do vendedor<input type="number" min="1" name="vendedorId" placeholder="Todos"></label><label>De<input type="date" name="inicio"></label><label>Até<input type="date" name="fim"></label></div>
+<div class="actions-row"><button type="button" class="secondary" data-clear="#salesForm" data-output="#salesResults">Limpar</button><button>Consultar</button></div></form>
+<p class="empty-note">Consulta parametrizada com JOIN entre pedidos, itens e vendedores, COUNT e SUM.</p>
+<div class="results"><div class="scroll" id="salesResults"></div></div></div></section>
+<section data-page="relatorio" hidden><div class="page-head"><div><h1 class="page-title">Relatório de estoque por categoria</h1>
+<p class="subtitle">Consolidado lido da visão <code>vw_b1_resumo_categorias</code> do MySQL.</p></div><button class="secondary" id="report">↻ Atualizar</button></div>
+<div class="results"><div class="scroll" id="reportResults"></div></div>
+<p class="empty-note">Se a visão não existir, execute <code>sql/04_b1_view.sql</code> no MySQL.</p></section>
+</main><footer><strong>Nexa.</strong> Tecnologia para o seu dia a dia · Projeto acadêmico — UCB</footer>
+<script>
+const $=s=>document.querySelector(s);let current=[];const message=(m,err=false)=>{$('#message').hidden=false;$('#message').textContent=m;$('#message').className=err?'error':'ok'};
+async function request(path,options={}){const r=await fetch(path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});let data;try{data=await r.json()}catch{data=null}if(!r.ok){let err=data?.error||data?.message||Object.values(data||{}).join('; ')||'Erro HTTP '+r.status;throw Error(err)}return data}
+function table(el,rows,actions=false){el.replaceChildren();if(!rows?.length){el.textContent='Nenhum resultado encontrado.';return}const keys=Object.keys(rows[0]);let t=document.createElement('table'),h=t.createTHead().insertRow();keys.forEach(k=>{let th=document.createElement('th');th.textContent=k;h.appendChild(th)});if(actions){let th=document.createElement('th');th.textContent='Ações';h.appendChild(th)}let body=t.createTBody();rows.forEach((r,i)=>{let tr=body.insertRow();keys.forEach(k=>{let td=tr.insertCell();td.textContent=r[k]===null?'—':typeof r[k]==='object'?JSON.stringify(r[k]):String(r[k])});if(actions){let td=tr.insertCell();let edit=document.createElement('button');edit.textContent='Editar';edit.className='secondary';edit.onclick=()=>editRow(i);td.appendChild(edit);td.append(' ');let del=document.createElement('button');del.textContent='Excluir';del.className='danger';del.onclick=()=>deleteRow(i);td.appendChild(del)}});el.appendChild(t)}
+function params(form){let q=new URLSearchParams(new FormData(form));for(let [k,v] of [...q])if(!v)q.delete(k);return q.toString()}
+async function run(url,el){try{table($(el),await request(url));message('Consulta concluída.')}catch(e){message(e.message,true)}}
+$('#stockForm').onsubmit=e=>{e.preventDefault();run('/b1/consultas/estoque?'+params(e.target),'#stockResults')};$('#salesForm').onsubmit=e=>{e.preventDefault();run('/b1/consultas/vendas?'+params(e.target),'#salesResults')};$('#report').onclick=()=>run('/b1/relatorios/categorias','#reportResults');
+async function load(){try{current=await request('/'+$('#entity').value);table($('#crudResults'),current,true);message('Registros carregados.')}catch(e){message(e.message,true)}}
+const ids={categories:'id',suppliers:'id',products:'id','b1/usuarios':'id'};
+async function editRow(i){await editItem(current[i])}
+async function editItem(item){let type=$('#entity').value,id=item?.[ids[type]];let fields= type==='categories'?['name','description','parentId']:type==='suppliers'?['name','cnpj','phone']:type==='b1/usuarios'?(item?['username','email']:['username','email','password']):['name','value','quantity','sellerId','categoryId'];let data={};for(const f of fields){let v=prompt('Informe '+f+(item?' (editar)':' (criar)'),item?.[f]??'');if(v===null)return;data[f]=['parentId','sellerId','categoryId','quantity'].includes(f)?(v===''?null:Number(v)):f==='value'?Number(v):v}try{await request('/'+type+(id!=null?'/'+id:''),{method:id!=null?'PUT':'POST',body:JSON.stringify(data)});message('Registro salvo.');load()}catch(e){message(e.message,true)}}
+async function deleteRow(i){let type=$('#entity').value,row=current[i],id=row?.[ids[type]];if(!confirm('Excluir registro '+id+'?'))return;try{await request('/'+type+'/'+id,{method:'DELETE'});message('Registro excluído.');load()}catch(e){message(e.message,true)}}
+$('#reload').onclick=load;$('#entity').onchange=load;$('#create').onclick=()=>editItem(null);load();
+
+function showB1Route(){
+  const route=(location.hash.replace(/^#\/?/,'')||'cadastros').split('/')[0];
+  const section=['cadastros','consultas','relatorio'].includes(route)?route:'cadastros';
+  document.querySelectorAll('[data-page]').forEach(el=>el.hidden=el.dataset.page!==section);
+  document.querySelectorAll('[data-nav]').forEach(el=>el.classList.toggle('active',el.dataset.nav===section));
+  document.title='Nexa — '+({cadastros:'Cadastros',consultas:'Consultas',relatorio:'Relatório'}[section]);
+}
+window.addEventListener('hashchange',showB1Route);
+document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));
+  document.querySelectorAll('[data-query]').forEach(p=>p.hidden=p.dataset.query!==btn.dataset.tab);
+}));
+document.querySelectorAll('[data-clear]').forEach(btn=>btn.addEventListener('click',()=>{
+  const form=document.querySelector(btn.dataset.clear);
+  form.reset();
+  const output=document.querySelector(btn.dataset.output);
+  output.replaceChildren();
+}));
+showB1Route();
+</script></body></html>

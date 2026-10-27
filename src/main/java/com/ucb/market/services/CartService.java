@@ -32,6 +32,14 @@ public class CartService {
         Product product = productRepository.findById(req.productId())
                 .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado: " + req.productId()));
 
+        // O mesmo usuário pode ser cliente e vendedor, mas não pode comprar seu próprio produto.
+        if (product.getSeller().getId().equals(cart.getClient().getId())) {
+            throw new BusinessException("Você não pode adicionar seu próprio produto ao carrinho.");
+        }
+        if (req.quantity() == null || req.quantity() <= 0) {
+            throw new BusinessException("A quantidade deve ser maior que zero.");
+        }
+
         BuyItem item = cart.getItems().stream()
                 .filter(i -> i.getProduct().getId().equals(product.getId()))
                 .findFirst().orElse(null);

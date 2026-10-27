@@ -31,6 +31,13 @@ public class OrderService {
         if (cart.getItems().isEmpty())
             throw new BusinessException("O carrinho está vazio");
 
+        // Validação no checkout também protege carrinhos antigos e chamadas diretas à API.
+        for (BuyItem item : cart.getItems()) {
+            if (item.getProduct().getSeller().getId().equals(cart.getClient().getId())) {
+                throw new BusinessException("Você não pode comprar seus próprios produtos. Remova-os do carrinho.");
+            }
+        }
+
         PurchaseOrder order = new PurchaseOrder();
         order.setClient(cart.getClient());
         order.setDateOrder(LocalDateTime.now());

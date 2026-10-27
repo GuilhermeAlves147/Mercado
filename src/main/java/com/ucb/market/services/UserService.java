@@ -77,6 +77,11 @@ public class UserService {
         Client client = new Client();
         client.setUser(user);
         client.setPhone(req.phone());
+        if (req.cnpj() != null && !req.cnpj().isBlank()) {
+            if (clientRepository.existsByCnpj(req.cnpj()))
+                throw new BusinessException("CNPJ de cliente já cadastrado");
+            client.setCnpj(req.cnpj());
+        }
         clientRepository.save(client);
         Cart cart = new Cart();
         cart.setClient(client);

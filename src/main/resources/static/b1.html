@@ -4,15 +4,15 @@
 :root{--bg:#f4f7fc;--ink:#172033;--muted:#66738b;--line:#dce4ef;--blue:#2e60ec;--soft:#eaf0ff;--danger:#b3261e;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;flex-direction:column}button,input,select{font:inherit}
 .topbar{height:auto;min-height:70px;background:#f4f7fb;border-bottom:1px solid #e1e7f0}
-.topbar-inner{max-width:1180px;min-height:70px;margin:auto;padding:10px 18px;display:flex;gap:26px;align-items:center}
+.topbar-inner{width:100%;max-width:1180px;min-height:70px;margin:0 auto;padding:10px 20px;display:flex;gap:20px;align-items:center}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#162036}
-.brand-icon{width:34px;height:34px;background:var(--blue);color:#fff;border-radius:10px;display:grid;place-items:center}.brand-icon svg{width:20px;height:20px}
+.brand-icon{width:34px;height:34px;background:#285fe8;color:#fff;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
 .brand-name{font:700 21px Fraunces,Georgia,serif}.brand-name span{color:var(--blue)}
 nav{display:flex;align-items:center;gap:3px;flex-wrap:wrap}
 nav a{text-decoration:none;color:#5d687d;font-size:13px;font-weight:600;padding:11px 13px;border-radius:24px;white-space:nowrap}
 nav a:hover{background:#eaf0ff}nav a.active{color:#285fe8;background:#e6edff}
 .top-actions{margin-left:auto;display:flex;gap:8px}.pill{padding:10px 16px;border:1px solid #dce5f1;border-radius:24px;font-size:12px;font-weight:700;white-space:nowrap}.pill.dark{background:#172033;color:white}
-main{width:100%;max-width:1180px;margin:23px auto 70px;padding:0 18px;flex:1}
+main{width:100%;max-width:1180px;margin:23px auto 70px;padding:0 20px;flex:1}
 .page-title{font:700 32px Fraunces,Georgia,serif;margin:0 0 3px;letter-spacing:-.6px}.subtitle{margin:0 0 24px;color:#65738d;font-size:13px}
 .page-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
 .panel{background:white;border:1px solid #dce5f1;border-radius:15px;padding:16px;margin:14px 0 20px}
@@ -41,6 +41,19 @@ footer{text-align:center;padding:22px;color:#8996a9;font-size:11px;border-top:1p
 footer strong{font:700 16px Fraunces,Georgia,serif;color:#172033;margin-right:12px}
 [data-page][hidden],[data-query][hidden]{display:none!important}
 @media(max-width:800px){.topbar-inner{gap:12px}.top-actions{display:none}nav a{padding:8px 9px}.page-title{font-size:27px}}
+
+/* Cabeçalho alinhado à Home Nexa: mesmas proporções e tipografia. */
+.topbar{min-height:78px;background:#f4f7fb}
+.topbar-inner{max-width:1180px;min-height:78px;padding:12px 20px;gap:20px}
+.brand{gap:10px;flex-shrink:0}
+.brand-icon{width:34px;height:34px;border-radius:10px}
+.brand-name{font-size:21px;letter-spacing:-.02em}
+.topbar nav{gap:4px;flex-wrap:nowrap}
+.topbar nav a{font-size:14px;font-weight:500;padding:8px 14px;line-height:1.5}
+.topbar nav a.active{font-weight:600}
+.top-actions .pill{font-size:13px;padding:10px 16px}
+@media(max-width:1050px){.topbar-inner{flex-wrap:wrap;gap:10px 16px}.topbar nav{order:3;width:100%;overflow-x:auto}.top-actions{margin-left:auto}}
+@media(max-width:800px){.topbar nav a{padding:8px 10px}.topbar-inner{padding:12px 16px}}
 </style></head><body>
 <header class="topbar"><div class="topbar-inner">
 <a class="brand" href="/#/"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.3 11H6.3z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="brand-name">nexa<span>.</span></span></a>

@@ -41,7 +41,7 @@ const API = (() => {
     login: (d) => request("/login", { method: "POST", body: d }),
     sellerStatus: (id) => request(`/users/${id}/seller/status`),
     becomeSeller: (id, cnpj) => request(`/users/${id}/seller`, { method: "POST", body: { cnpj } }),
-    becomeClient: (id, phone = null) => request(`/users/${id}/client`, { method: "POST", body: { phone } }),
+    becomeClient: (id, phone = null, cnpj = null) => request(`/users/${id}/client`, { method: "POST", body: { phone, cnpj } }),
     // catálogo
     products: (params = {}) => request(`/products${qs(params)}`),
     createProduct: (d) => request("/products", { method: "POST", body: d }),

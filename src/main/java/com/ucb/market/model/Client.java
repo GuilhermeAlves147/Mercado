@@ -24,6 +24,4 @@ public class Client {
     @Column(length = 20)
     private String phone;
 
-    @Column(name = "cnpj", length = 14, unique = true)
-    private String cnpj;
 }

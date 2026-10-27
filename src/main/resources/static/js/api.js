@@ -39,6 +39,7 @@ const API = (() => {
     // usuários
     register: (d) => request("/users", { method: "POST", body: d }),
     login: (d) => request("/login", { method: "POST", body: d }),
+    sellerStatus: (id) => request(`/users/${id}/seller/status`),
     becomeSeller: (id, cnpj) => request(`/users/${id}/seller`, { method: "POST", body: { cnpj } }),
     becomeClient: (id, phone = null) => request(`/users/${id}/client`, { method: "POST", body: { phone } }),
     // catálogo

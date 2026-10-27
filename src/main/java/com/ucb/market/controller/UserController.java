@@ -19,6 +19,11 @@ public class UserController {
         return userService.register(req);
     }
 
+    @GetMapping("/users/{id}/seller/status")
+    public java.util.Map<String, Boolean> sellerStatus(@PathVariable Integer id) {
+        return java.util.Map.of("seller", userService.isSeller(id));
+    }
+
     @PostMapping("/users/{id}/seller")
     @ResponseStatus(HttpStatus.CREATED)
     public void becomeSeller(@PathVariable Integer id, @RequestBody @Valid SellerRequest req) {

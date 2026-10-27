@@ -49,6 +49,14 @@ const state = {
   pending: null, // ação a repetir depois do login
 };
 const isSeller = () => !!state.user && store.get(`mercado_seller_${state.user.id}`) === true;
+const sellerVerified = () => !!state.user && store.get(`mercado_seller_checked_${state.user.id}`) === true;
+async function verifySeller() {
+  if (!state.user) return false;
+  const result = await API.sellerStatus(state.user.id);
+  setSeller(result.seller === true);
+  store.set(`mercado_seller_checked_${state.user.id}`, true);
+  return result.seller === true;
+}
 const setSeller = (v) => state.user && (v ? store.set(`mercado_seller_${state.user.id}`, true) : store.del(`mercado_seller_${state.user.id}`));
 const productById = (id) => state.products.find((p) => p.id === Number(id));
 
@@ -163,6 +171,7 @@ function updateCartBadge() {
 /* ============ sessão ============ */
 function setUser(u) {
   state.user = u;
+  if (u?.id != null) store.del(`mercado_seller_checked_${u.id}`);
   if (u) store.set("mercado_user", u); else store.del("mercado_user");
   renderAccount();
 }
@@ -501,6 +510,12 @@ const maskCnpj = (v) => v.replace(/\D/g, "").slice(0, 14).replace(/^(\d{2})(\d)/
 
 async function renderSell() {
   const v = $("#view");
+  if (!sellerVerified()) {
+    v.innerHTML = stateBlock({ icon: ICON.box, title: "Verificando vendedor", text: "Consultando seu cadastro..." });
+    try { await verifySeller(); }
+    catch (e) { v.innerHTML = stateBlock({ icon: ICON.alert, error: true, title: "Não foi possível verificar seu cadastro", text: e.message, action: `<button class="btn" data-action="retry-route">Tentar novamente</button>` }); return; }
+    if (route() !== "sell") return;
+  }
   if (!isSeller()) {
     v.innerHTML = `<div class="activate">${stateBlock({
       icon: ICON.box, title: "Comece a vender", text: "Informe o CNPJ do seu negócio para ativar sua conta de vendedor.",
@@ -586,7 +601,7 @@ async function handleForm(form) {
       if (digits.length !== 14) return showErr("O CNPJ deve ter 14 dígitos.");
       try { await API.becomeSeller(state.user.id, digits); }
       catch (e) { if (!/já é vendedor/i.test(e.message)) throw e; }
-      setSeller(true);
+      await verifySeller();
       toast("Conta de vendedor ativada!", "success");
       await renderSell();
     } else if (kind === "product") {
@@ -630,7 +645,13 @@ const actions = {
   checkout,
   "order-status": (el) => setOrderStatus(el.dataset.id, el.dataset.status),
   "order-cancel": async (el) => { if (await confirmDialog({ title: "Cancelar pedido?", message: "Os itens voltam para o estoque. Essa ação não pode ser desfeita.", ok: "Cancelar pedido", danger: true })) setOrderStatus(el.dataset.id, "CANCELADO"); },
-  "already-seller": () => { setSeller(true); renderSell(); },
+  "already-seller": async () => {
+    try {
+      if (await verifySeller()) toast("Cadastro de vendedor confirmado!", "success");
+      else toast("Você ainda não é vendedor. Informe seu CNPJ para ativar a conta.", "error");
+      await renderSell();
+    } catch (e) { fail(e); }
+  },
   "product-new": () => openProductForm(),
   "product-edit": (el) => openProductForm(productById(el.dataset.id) || null),
   "product-delete": async (el) => {

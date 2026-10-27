@@ -46,6 +46,12 @@ public class UserService {
                 .orElseThrow(() -> new BusinessException("E-mail ou senha inválidos"));
         return UserResponse.from(user);
     }
+    public boolean isSeller(Integer userId) {
+        if (!userRepository.existsById(userId))
+            throw new ResourceNotFoundException("Usuário não encontrado: " + userId);
+        return sellerRepository.existsById(userId);
+    }
+
     @Transactional
     public void becomeSeller(Integer userId, SellerRequest req) {
         User user = userRepository.findById(userId)

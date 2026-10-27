@@ -1,18 +1,18 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nexa — Painel B1</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Nexa — Painel do ADM</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
 :root{--bg:#f4f7fc;--ink:#172033;--muted:#66738b;--line:#dce4ef;--blue:#2e60ec;--soft:#eaf0ff;--danger:#b3261e;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;flex-direction:column}button,input,select{font:inherit}
-.topbar{height:auto;min-height:70px;background:#f7f9fd;border-bottom:1px solid #e1e7f0}
-.topbar-inner{max-width:1020px;min-height:70px;margin:auto;padding:10px 18px;display:flex;gap:26px;align-items:center}
+.topbar{height:auto;min-height:70px;background:#f4f7fb;border-bottom:1px solid #e1e7f0}
+.topbar-inner{max-width:1180px;min-height:70px;margin:auto;padding:10px 18px;display:flex;gap:26px;align-items:center}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#162036}
-.brand-icon{width:31px;height:31px;background:var(--blue);color:#fff;border-radius:10px;display:grid;place-items:center;font-size:19px}
-.brand-name{font:700 22px Fraunces,Georgia,serif}.brand-name span{color:var(--blue)}
+.brand-icon{width:34px;height:34px;background:var(--blue);color:#fff;border-radius:10px;display:grid;place-items:center}.brand-icon svg{width:20px;height:20px}
+.brand-name{font:700 21px Fraunces,Georgia,serif}.brand-name span{color:var(--blue)}
 nav{display:flex;align-items:center;gap:3px;flex-wrap:wrap}
-nav a{text-decoration:none;color:#626f86;font-size:13px;font-weight:600;padding:11px 13px;border-radius:24px;white-space:nowrap}
-nav a:hover{background:#eaf0ff}nav a.active{color:#285de9;background:#eaf0ff;outline:2px solid #89a6ff;outline-offset:1px}
+nav a{text-decoration:none;color:#5d687d;font-size:13px;font-weight:600;padding:11px 13px;border-radius:24px;white-space:nowrap}
+nav a:hover{background:#eaf0ff}nav a.active{color:#285fe8;background:#e6edff}
 .top-actions{margin-left:auto;display:flex;gap:8px}.pill{padding:10px 16px;border:1px solid #dce5f1;border-radius:24px;font-size:12px;font-weight:700;white-space:nowrap}.pill.dark{background:#172033;color:white}
-main{width:100%;max-width:1016px;margin:23px auto 70px;padding:0 18px;flex:1}
+main{width:100%;max-width:1180px;margin:23px auto 70px;padding:0 18px;flex:1}
 .page-title{font:700 32px Fraunces,Georgia,serif;margin:0 0 3px;letter-spacing:-.6px}.subtitle{margin:0 0 24px;color:#65738d;font-size:13px}
 .page-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
 .panel{background:white;border:1px solid #dce5f1;border-radius:15px;padding:16px;margin:14px 0 20px}
@@ -43,9 +43,9 @@ footer strong{font:700 16px Fraunces,Georgia,serif;color:#172033;margin-right:12
 @media(max-width:800px){.topbar-inner{gap:12px}.top-actions{display:none}nav a{padding:8px 9px}.page-title{font-size:27px}}
 </style></head><body>
 <header class="topbar"><div class="topbar-inner">
-<a class="brand" href="/#/"><span class="brand-icon">▣</span><span class="brand-name">Nexa<span>.</span></span></a>
+<a class="brand" href="/#/"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.3 11H6.3z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="brand-name">nexa<span>.</span></span></a>
 <nav><a href="/#/">Catálogo</a><a href="/#/pedidos">Meus pedidos</a><a href="/#/vender">Vender</a><a href="#/cadastros" data-nav="cadastros">Cadastros</a><a href="#/consultas" data-nav="consultas">Consultas</a><a href="#/relatorio" data-nav="relatorio">Relatório</a></nav>
-<div class="top-actions"><span class="pill">Administração</span><span class="pill dark">Painel B1</span></div>
+<div class="top-actions"><span class="pill dark">Painel do ADM</span></div>
 </div></header><main>
 <p id="message" role="status" aria-live="polite" hidden>Conectado ao banco de dados.</p>
 <section data-page="cadastros"><h1 class="page-title">Cadastros</h1><p class="subtitle">Gerencie categorias, fornecedores, produtos e usuários do marketplace.</p>

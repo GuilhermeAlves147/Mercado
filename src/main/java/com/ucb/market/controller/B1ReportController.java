@@ -44,7 +44,7 @@ public class B1ReportController {
             "WHERE (:vendedor IS NULL OR p.id_seller=:vendedor) " +
             "AND (:inicio IS NULL OR o.date_order>=:inicio) " +
             "AND (:fim IS NULL OR o.date_order<DATE_ADD(:fim,INTERVAL 1 DAY)) " +
-            "GROUP BY p.id_seller,u.user ORDER BY faturamento DESC";
+            "GROUP BY p.id_seller,u.name ORDER BY faturamento DESC";
         Map<String,Object> args=new HashMap<>(); args.put("vendedor",vendedorId);
         args.put("inicio",inicio);args.put("fim",fim);
         return jdbc.queryForList(sql,args);

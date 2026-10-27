@@ -35,19 +35,29 @@ public class B1ReportController {
                                             @RequestParam(required=false) LocalDate fim) {
         if(inicio!=null&&fim!=null&&inicio.isAfter(fim))
             throw new com.ucb.market.exception.BusinessException("A data inicial não pode ser posterior à data final.");
-        String sql="SELECT p.id_seller AS vendedorId, u.user AS vendedor, " +
+        StringBuilder sql = new StringBuilder(
+            "SELECT p.id_seller AS vendedorId, u.user AS vendedor, " +
             "COUNT(DISTINCT o.id_order) AS pedidos, COALESCE(SUM(oi.quantity),0) AS unidades, " +
             "COALESCE(SUM(oi.quantity*oi.unit_value),0) AS faturamento " +
             "FROM tb_order o JOIN tb_orderItem oi ON oi.id_order=o.id_order " +
             "JOIN tb_product p ON p.id_product=oi.id_product " +
-            "JOIN tb_seller s ON s.id_seller=p.id_seller JOIN tb_user u ON u.id_user=s.id_seller " +
-            "WHERE (:vendedor IS NULL OR p.id_seller=:vendedor) " +
-            "AND (:inicio IS NULL OR o.date_order>=:inicio) " +
-            "AND (:fim IS NULL OR o.date_order<DATE_ADD(:fim,INTERVAL 1 DAY)) " +
-            "GROUP BY p.id_seller,u.name ORDER BY faturamento DESC";
-        Map<String,Object> args=new HashMap<>(); args.put("vendedor",vendedorId);
-        args.put("inicio",inicio);args.put("fim",fim);
-        return jdbc.queryForList(sql,args);
+            "JOIN tb_seller s ON s.id_seller=p.id_seller " +
+            "JOIN tb_user u ON u.id_user=s.id_seller WHERE 1=1");
+        Map<String,Object> args = new HashMap<>();
+        if (vendedorId != null) {
+            sql.append(" AND p.id_seller=:vendedor");
+            args.put("vendedor", vendedorId);
+        }
+        if (inicio != null) {
+            sql.append(" AND o.date_order>=:inicio");
+            args.put("inicio", inicio.atStartOfDay());
+        }
+        if (fim != null) {
+            sql.append(" AND o.date_order<:fimExclusivo");
+            args.put("fimExclusivo", fim.plusDays(1).atStartOfDay());
+        }
+        sql.append(" GROUP BY p.id_seller,u.user ORDER BY faturamento DESC");
+        return jdbc.queryForList(sql.toString(),args);
     }
 
     /** Depende da VIEW criada por sql/04_b1_view.sql. */

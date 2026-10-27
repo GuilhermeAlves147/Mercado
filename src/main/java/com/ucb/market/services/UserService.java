@@ -37,7 +37,14 @@ public class UserService {
         user.setUsername(req.username());
         user.setEmail(req.email());
         user.setPassword(passwordEncoder.encode(req.password()));
-        return UserResponse.from(userRepository.save(user));
+        User savedUser = userRepository.saveAndFlush(user);
+        Client client = new Client();
+        client.setUser(savedUser);
+        clientRepository.saveAndFlush(client);
+        Cart cart = new Cart();
+        cart.setClient(client);
+        cartRepository.save(cart);
+        return UserResponse.from(savedUser);
     }
 
     public UserResponse login(LoginRequest req) {

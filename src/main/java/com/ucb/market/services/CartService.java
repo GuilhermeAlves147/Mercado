@@ -6,8 +6,12 @@ import com.ucb.market.exception.BusinessException;
 import com.ucb.market.exception.ResourceNotFoundException;
 import com.ucb.market.model.BuyItem;
 import com.ucb.market.model.Cart;
+import com.ucb.market.model.Client;
+import com.ucb.market.model.User;
 import com.ucb.market.model.Product;
 import com.ucb.market.repository.CartRepository;
+import com.ucb.market.repository.ClientRepository;
+import com.ucb.market.repository.UserRepository;
 import com.ucb.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartService {
 
     private final CartRepository cartRepository;
+    private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
     @Transactional
@@ -52,10 +58,21 @@ public class CartService {
         return CartResponse.from(cart);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public CartResponse getByClient(Integer clientId) {
-        Cart cart = cartRepository.findFirstByClientId(clientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Carrinho não encontrado para o cliente " + clientId));
+        // Contas antigas podem existir apenas em tb_user, sem tb_client ou tb_cart.
+        Client client = clientRepository.findById(clientId).orElseGet(() -> {
+            User user = userRepository.findById(clientId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado: " + clientId));
+            Client newClient = new Client();
+            newClient.setUser(user);
+            return clientRepository.saveAndFlush(newClient);
+        });
+        Cart cart = cartRepository.findFirstByClientIdOrderByIdDesc(clientId).orElseGet(() -> {
+            Cart newCart = new Cart();
+            newCart.setClient(client);
+            return cartRepository.saveAndFlush(newCart);
+        });
         return CartResponse.from(cart);
     }
 
